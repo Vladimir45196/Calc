@@ -1,38 +1,31 @@
 package com.calc;
 
-import org.jetbrains.annotations.NotNull;
 
-import java.util.InputMismatchException;
+import java.util.HashMap;
+import java.util.Map;
 
- class RomanToNum {
+class RomanToNum {
 
-    public static int romanToNumber(@NotNull String roman) {
-        try {
-            if (roman.equals("I")) {
-                return 1;
-            } else if (roman.equals("II")) {
-                return 2;
-            } else if (roman.equals("III")) {
-                return 3;
-            } else if (roman.equals("IV")) {
-                return 4;
-            } else if (roman.equals("V")) {
-                return 5;
-            } else if (roman.equals("VI")) {
-                return 6;
-            } else if (roman.equals("VII")) {
-                return 7;
-            } else if (roman.equals("VIII")) {
-                return 8;
-            } else if (roman.equals("IX")) {
-                return 9;
-            } else if (roman.equals("X")) {
-                return 10;
-            }
-        } catch (InputMismatchException e) {
-            throw new InputMismatchException("Invalid data format");
+    public static int romanToInteger(String roman) {
+        Map<Character, Integer> numbersMap = new HashMap<>();
+        numbersMap.put('I', 1);
+        numbersMap.put('V', 5);
+        numbersMap.put('X', 10);
+        numbersMap.put('L', 50);
+        numbersMap.put('C', 100);
+        numbersMap.put('D', 500);
+        numbersMap.put('M', 1000);
+
+        int result = 0;
+
+        for (int i = 0; i < roman.length(); i++) {
+            char ch = roman.charAt(i);
+
+            if (i > 0 && numbersMap.get(ch) > numbersMap.get(roman.charAt(i - 1))) {
+                result += numbersMap.get(ch) - 2 * numbersMap.get(roman.charAt(i - 1));
+            } else
+                result += numbersMap.get(ch);
         }
-        return -1;
+        return result;
     }
-
 }
